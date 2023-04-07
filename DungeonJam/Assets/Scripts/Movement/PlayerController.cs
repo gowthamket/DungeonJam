@@ -11,13 +11,15 @@ public class PlayerController : MonoBehaviour
     private Quaternion rotation;
     //private bool isRotating = false;
     private float targetRotation = 0f;
-    bool CanMove = true;
+    public bool CanMoveForward = true;
+    public bool CanMoveBackward = true;
     public bool SmoothTransition = false;
     public float MoveTransitionSpeed = 5f;
     public float RotateTransitionSpeed = 100f;
-    [HideInInspector]
+    
     public bool isMoving = false;
     public bool isRotating = false;
+    public LayerMask hitLayers;
 
     RaycastHit hit;
 
@@ -47,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
     public void MoveForward()
     {
+        
         isMoving = true;
         targetGridPos += transform.forward * 2f;
 
@@ -54,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
     public void Movebackward()
     {
+        
         isMoving = true;
         targetGridPos -= transform.forward * 2f;
 
@@ -76,7 +80,7 @@ public class PlayerController : MonoBehaviour
     }
     void MovePlayer()
     {
-        if(CanMove)
+        if(CanMoveForward || CanMoveBackward)
         {
             prevTargetGridPos = targetGridPos;
             Vector3 currentPosition = targetGridPos;
@@ -150,14 +154,28 @@ public class PlayerController : MonoBehaviour
     {
         //raycast in order to detect collisions infront of player, cant walk through walls
         Ray ray = new Ray(transform.position, transform.forward);
+        Ray BackwardsRay = new Ray(transform.position, -transform.forward);
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow);
-        if (Physics.Raycast(ray, out hit, 100))
+        Debug.DrawRay(BackwardsRay.origin, BackwardsRay.direction * 100, Color.yellow);
+        if (Physics.Raycast(ray, out hit, 100, hitLayers))
         {
-            CanMove = false;
+            CanMoveForward = false;
+            
+           
         }
         else
         {
-            CanMove = true;
+            CanMoveForward = true;
+        }
+        if(Physics.Raycast(BackwardsRay, out hit, 100, hitLayers))
+        {
+            CanMoveBackward = false;
+        }
+        else
+        {
+            CanMoveBackward= true;
         }
     }
+
+   
 }

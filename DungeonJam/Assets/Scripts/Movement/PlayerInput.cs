@@ -27,8 +27,9 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(forward) && controller.isMoving == false && controller.isRotating == false)
+        if (Input.GetKeyDown(forward) && controller.isMoving == false && controller.isRotating == false && controller.CanMoveForward == true)
         {
+           
             controller.MoveForward();
         }
         if (Input.GetKeyDown(turnright) && controller.isRotating == false && controller.isMoving == false)
@@ -41,7 +42,7 @@ public class PlayerInput : MonoBehaviour
             controller.RotateLeft();
         }
             
-        if (Input.GetKeyDown(backward) && controller.isMoving == false && controller.isRotating == false)
+        if (Input.GetKeyDown(backward) && controller.isMoving == false && controller.isRotating == false && controller.CanMoveBackward == true)
         {
             controller.Movebackward();
         }

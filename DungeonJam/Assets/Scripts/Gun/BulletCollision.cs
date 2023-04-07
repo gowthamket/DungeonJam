@@ -4,14 +4,42 @@ using UnityEngine;
 
 public class BulletCollision : MonoBehaviour
 {
-    
+    private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Target"))
+
+        switch (collision.gameObject.tag)
         {
-            Destroy(this.gameObject);
-            Debug.Log("hit target");
-        }
+            case "Target2":
+                Destroy(this.gameObject);
+
+                Destroy(collision.gameObject);
+                gameManager.HitTarget();
+                break;
+
+            case "Target3":
+                Destroy(this.gameObject);
+                
+                break;
+
+            default:
+                gameManager.LoseLife();
+                Destroy(this.gameObject);
+                break;
+
+
+        };
+
+       
+       
+
+        
+        
     }
 }

@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Enemy
   - Target
+  - MiniGame3
+  - MiniGame2
+  - Bullet
+  - Target3
   layers:
   - Default
   - TransparentFX
@@ -13,7 +17,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Obstacle
   - 
   - 
   - 

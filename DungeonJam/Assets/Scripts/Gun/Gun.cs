@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -37,9 +38,9 @@ public class Gun : MonoBehaviour
     
       
 
-        if(Input.GetButton("Fire1") && Time.time >= nextFireTime && gameManager != null)
+        if(Input.GetButton("Fire1") && Time.time >= nextFireTime && gameManager != null && gameManager.CanShoot())
         {
-            Test2();
+            FireWeapon();
         }
 
 
@@ -47,20 +48,33 @@ public class Gun : MonoBehaviour
 
   
 
-    void Test2()
+    void FireWeapon()
     {
-        nextFireTime = Time.time + weaponData.fireRate;
-        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        GameObject newGameObject = (GameObject)Instantiate(bulletPrefab, mouseRay.origin, transform.rotation);
-        Rigidbody rb = newGameObject.GetComponent<Rigidbody>();
-
-        if (rb != null)
+        if(gameManager.currentBullets > 0)
         {
-      
-            rb.velocity = mouseRay.direction * weaponData.bulletSpeed;
+            nextFireTime = Time.time + weaponData.fireRate;
+            Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            GameObject newGameObject = (GameObject)Instantiate(bulletPrefab, mouseRay.origin, transform.rotation);
+            Rigidbody rb = newGameObject.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+
+                rb.velocity = mouseRay.direction * weaponData.bulletSpeed;
+            }
+            //StartCoroutine(WaitToDestroy(newGameObject));
+            
         }
-        gameManager.NumOfBullets--;
+       
     }
 
-     
+    IEnumerator WaitToDestroy(GameObject bullet)
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(bullet);
+        gameManager.LoseLife();
+    }
+
+
+
 }
