@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -57,6 +58,10 @@ public class GameManager : MonoBehaviour
     {
         NumOfTargetsHit++;
         targetCount.text = "Targets Hit: " + NumOfTargetsHit + "/10";
+        if (NumOfTargetsHit >= 10)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
     public bool CanShoot()
@@ -67,7 +72,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Game Over");
+            //Debug.Log("Game Over");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             return false;
         }
     }
